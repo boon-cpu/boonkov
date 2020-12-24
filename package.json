@@ -1,0 +1,13 @@
+{
+  "name": "boonkov",
+  "version": "1.2.0",
+  "main": "index.js",
+  "files": [
+    "README.md",
+    "package.json",
+    "index.js",
+    "index.d.ts"
+  ],
+  "license": "MIT",
+  "description": "Generate and utilise Markov chains using this package."
+}
