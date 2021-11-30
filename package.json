@@ -5,8 +5,7 @@
   "files": [
     "README.md",
     "package.json",
-    "index.js",
-    "index.d.ts"
+    "/lib/**/*"
   ],
   "license": "MIT",
   "description": "Generate and utilise Markov chains using this package.",
