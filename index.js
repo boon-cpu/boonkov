@@ -1,53 +1,54 @@
-const toNgrams = (input, nOrder) => {
-  if (nOrder > 5 || nOrder < 1)
-    throw new Error("nOrder must be below 5 and above 1");
-  const ngrams = {};
-  const beginnings = [];
-  input.forEach((sentence) => {
-    const words = sentence.split(` `);
-    let prompts = "";
-    for (let i = 0; i < nOrder; i++) {
-      prompts += words[i] + " ";
+"use strict";
+function toNgram(input, nOrder) {
+    const nGram = {};
+    const beginnings = [];
+    // For every piece of text user inputs.
+    for (let i = 0; i < input.length; i++) {
+        const sentence = input[i];
+        const words = sentence.split(" ");
+        // Generate the beginnings array.
+        let accumBeginnings = [];
+        for (let j = 0; j < nOrder; j++) {
+            accumBeginnings.push(words[j]);
+        }
+        beginnings.push(accumBeginnings.join(" "));
+        // For each word in the text.
+        for (let j = 0; j < words.length; j++) {
+            // This is for higher NOrders above 1
+            const accumArray = [];
+            const accumWords = [];
+            for (let k = 0; k < nOrder; k++) {
+                accumArray.push(words[j + 1 + k]);
+                accumWords.push(words[j + k]);
+            }
+            const accumWord = accumWords.join(" ");
+            // Add data to the mf object.
+            if (!nGram[accumWord]) {
+                nGram[accumWord] = [accumArray.join(" ")];
+            }
+            else {
+                nGram[accumWord] = nGram[accumWord].concat([accumArray.join(" ")]);
+            }
+        }
     }
-    beginnings.push(prompts.slice(0, -1));
-    words.forEach((word, idx) => {
-      let ref = ``;
-      for (let i = 0; i < nOrder; i++) {
-        ref += `${words[idx + i]} `;
-      }
-      ref = ref.slice(0, ref.length - 1);
-
-      let next = ``;
-      for (let i = 0; i < nOrder; i++) {
-        next += `${words[1 + idx + i]} `;
-      }
-      next = next.slice(0, next.length - 1);
-
-      if (!ngrams[ref]) {
-        ngrams[ref] = [next];
-      } else {
-        ngrams[ref].push(next);
-      }
-    });
-  });
-  return { ngrams: ngrams, beginnings: beginnings };
-};
-
-const fromNgrams = (ngrams, beginnings) => {
-  const beginning = beginnings[~~(Math.random() * beginnings.length)];
-  let currentGram = beginning;
-  let next;
-  let res = "";
-  for (let i = 0; i < 50; i++) {
-    next = ngrams[currentGram][~~(Math.random() * ngrams[currentGram].length)];
-    currentGram = next;
-    if (!ngrams[currentGram]) {
-      break;
+    return { nGram, beginnings }; // W Confirmed;
+}
+function fromNgram(nGram, beginnings) {
+    // Grab a random starting word(s)
+    let query = beginnings[Math.floor(Math.random() * beginnings.length)];
+    let result = query + " ";
+    // Keep looping until it runs out of NGram results
+    let looper = true;
+    while (looper) {
+        const gram = nGram[query];
+        if (!gram || !gram.length) {
+            looper = false;
+            break;
+        }
+        // Takes a random NGram result and slaps it in the string
+        const nextBit = gram[Math.floor(Math.random() * gram.length)];
+        result += nextBit.split(" ")[nextBit.split(" ").length - 1] + " ";
+        query = nextBit;
     }
-    res += currentGram.split(" ")[0] + " ";
-  }
-  return beginning.split(" ")[0] + " " + res;
-};
-
-exports.toNgrams = toNgrams;
-exports.fromNgrams = fromNgrams;
+    return result; // Insane W acquired
+}

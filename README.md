@@ -3,35 +3,37 @@
 Boonkov is a smart and easy-to-use Markov chain generator and compiler.
 
 ```js
-const { toNgrams, fromNgrams } = require("boonkov");
+const { toNgram, fromNgram } = require("boonkov");
 
-// Sets up the lexicon to be used by the algorithm.
-const { ngrams, beginnings } = toNgrams(
-  [ "This is the example input string", "This is another example string" ],
-  1
-);
+const sentences = [
+  "This is the example input string",
+  "This is another example string",
+];
+const nOrder = 1;
+
+// Sets up the N-Gram to be used by the algorithm.
+const { nGram, beginnings } = toNgram(sentences, nOrder);
 
 // This takes the results from the generator and utilises them.
-const result = fromNgrams(ngrams, beginnings);
+const result = fromNgram(nGram, beginnings);
 
 console.log(result);
 ```
 
-### toNgrams
+### toNgram
 
-the `toNgrams` function takes three parameters:
+The `toNgram` function takes two parameters:
 
-- `input` A string containing the messages you want in your lexicon.
-- `separator` Either a string or a RegExp detailing how to split verses.
-- `nOrder` number 1-5 detailing how thorough the algorithm is, lower number for more chaos.
+- `input` An array containing the strings you want to make up your lexicon.
+- `nOrder` number above 0 describing the depth of the algorithm. (Lower number for wackier generations)
 
-It returns an object containing `ngrams` and `beginnings`
+It returns an object containing an `nGram` object with your N-Gram in and an array `beginnings` full of sentence starters.
 
-### fromNgrams
+### fromNgram
 
-the `fromNgrams` function takes two parameters:
+the `fromNgram` function takes two parameters:
 
-- `ngrams` A Markov chain which you can generate using the `toNgrams` function.
-- `beginnings` An array of words that start the algorithm which you can generate using the `toNgrams` function.
+- `nGram` A Markov chain N-Gram which you can generate using the `toNgram` function.
+- `beginnings` An array of words that start the algorithm which you can generate using the `toNgram` function.
 
 It returns a string that is your Markov generated text.
