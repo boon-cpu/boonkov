@@ -1,4 +1,4 @@
-function toNgram(input: string[], nOrder: number) {
+export function toNgram(input: string[], nOrder: number) {
   const nGram: Record<string, string[]> = {};
   const beginnings: string[] = [];
 
@@ -37,7 +37,10 @@ function toNgram(input: string[], nOrder: number) {
   return { nGram, beginnings }; // W Confirmed;
 }
 
-function fromNgram(nGram: Record<string, string[]>, beginnings: string[]) {
+export function fromNgram(
+  nGram: Record<string, string[]>,
+  beginnings: string[]
+) {
   // Grab a random starting word(s)
   let query = beginnings[Math.floor(Math.random() * beginnings.length)];
   let result = query + " ";

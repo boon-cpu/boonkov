@@ -11,7 +11,19 @@
   "license": "MIT",
   "description": "Generate and utilise Markov chains using this package.",
   "devDependencies": {
+    "@types/node": "^16.11.11",
     "ts-node-dev": "^1.1.8",
     "typescript": "^4.5.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/boon-cpu/boonkov"
+  },
+  "keywords": [
+    "markov",
+    "markov-chains",
+    "boon",
+    "typescript"
+  ],
+  "author": "boon-cpu"
 }
